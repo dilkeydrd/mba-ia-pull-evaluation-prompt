@@ -211,20 +211,20 @@ mba-ia-pull-evaluation-prompt/
 │
 ├── prompts/
 │   ├── bug_to_user_story_v1.yml  # Prompt inicial (já incluso)
-│   └── bug_to_user_story_v2.yml  # Seu prompt otimizado (criar)
+│   └── bug_to_user_story_v2.yml  # Seu prompt otimizado 
 │
 ├── datasets/
 │   └── bug_to_user_story.jsonl   # 15 exemplos de bugs (já incluso)
 │
 ├── src/
-│   ├── pull_prompts.py       # Pull do LangSmith (implementar)
-│   ├── push_prompts.py       # Push ao LangSmith (implementar)
+│   ├── pull_prompts.py       # Pull do LangSmith 
+│   ├── push_prompts.py       # Push ao LangSmith 
 │   ├── evaluate.py           # Avaliação automática (pronto)
 │   ├── metrics.py            # 5 métricas implementadas (pronto)
 │   └── utils.py              # Funções auxiliares (pronto)
 │
 ├── tests/
-│   └── test_prompts.py       # Testes de validação (implementar)
+│   └── test_prompts.py       # Testes de validação
 ```
 
 **O que você deve implementar:**
@@ -334,3 +334,97 @@ python src/evaluate.py
 - **Não altere os datasets de avaliação** - apenas os prompts em `prompts/bug_to_user_story_v2.yml`
 - **Itere, itere, itere** - é normal precisar de 3-5 iterações para atingir 0.8 em todas as métricas
 - **Documente seu processo** - a jornada de otimização é tão importante quanto o resultado final
+
+
+## Técnicas aplicadas (Fase 2)
+
+### 1. Role Prompting
+  - Define o papel logo no início ("Você é um Product Manager Sênior especialista em...") para calibrar tom, vocabulário e nível de expertise da resposta.
+
+### 2. Few-show Learning
+  - 4 exemplos completos, um para cada nível de complexidade (2x Simples, 1x Médio, 1x Complexo), mostrando exatamente o padrão de saída esperado — a técnica mais eficaz para consistência de formato.
+
+### 4. Chain of Thought (Cot)
+  - A seção "Processo" pede raciocínio passo a passo (persona → necessidade → valor → classificação → critérios) antes de gerar a saída final, o que reduz erros de estrutura.
+
+## Resultados Finais
+
+from google.generativeai.caching import CachedContent  # type: ignore[import]
+   Avaliando exemplos...
+      [1/15] F1:0.74 Clarity:0.98 Precision:0.95
+      [2/15] F1:0.84 Clarity:0.95 Precision:0.97
+      [3/15] F1:0.88 Clarity:0.98 Precision:1.00
+      [4/15] F1:0.73 Clarity:0.98 Precision:0.93
+      [5/15] F1:0.79 Clarity:0.90 Precision:1.00
+      [6/15] F1:1.00 Clarity:0.98 Precision:1.00
+      [7/15] F1:0.67 Clarity:0.95 Precision:1.00
+      [8/15] F1:0.94 Clarity:0.98 Precision:0.98
+      [9/15] F1:0.97 Clarity:0.98 Precision:1.00
+      [10/15] F1:0.84 Clarity:0.83 Precision:0.97
+      [11/15] F1:0.89 Clarity:0.98 Precision:1.00
+      [12/15] F1:0.74 Clarity:0.70 Precision:0.88
+      [13/15] F1:1.00 Clarity:0.98 Precision:1.00
+      [14/15] F1:0.96 Clarity:0.98 Precision:0.93
+      [15/15] F1:1.00 Clarity:0.97 Precision:0.93
+
+==================================================
+Prompt: dilean/bug_to_user_story_v2
+==================================================
+
+Métricas Derivadas:
+  - Helpfulness: 0.96 ✓
+  - Correctness: 0.92 ✓
+
+Métricas Base:
+  - F1-Score: 0.87 ✓
+  - Clarity: 0.94 ✓
+  - Precision: 0.97 ✓
+
+--------------------------------------------------
+📊 MÉDIA GERAL: 0.9300
+--------------------------------------------------
+
+✅ STATUS: APROVADO - Todas as métricas >= 0.8
+
+==================================================
+RESUMO FINAL
+==================================================
+
+Prompts avaliados: 1
+Aprovados: 1
+Reprovados: 0
+
+✅ Todos os prompts atingiram todas as métricas >= 0.8!
+
+## Como executar
+
+1. Clone o repositorio
+git clone <url-do-repositorio>
+cd mba-ia-pull-evaluation-prompt-main
+
+2. Crie ambiente virtual
+python -m venv venv
+
+Ative o ambiente virtual
+source venv/bin/activate        # Linux/Mac
+venv\Scripts\activate           # Windows
+
+3. Instalar dependencias 
+pip install -r requirements.txt
+
+4. Configurar credenciais
+cp .env.example .env
+
+Edite .env com suas API keys
+
+5. Pull do prompt inicial
+python src/pull_prompts.py
+
+4. Validar estrutura do prompt otimizado
+pytest tests/test_prompts.py
+
+5. Push do prompt otimizado para LangSmith
+python src/push_prompts.py
+
+6. Execute
+python src/evaluate.py

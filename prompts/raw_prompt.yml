@@ -1,0 +1,16 @@
+id: dilean/bug_to_user_story_v1
+prompt:
+  name: null
+  input_variables:
+  - bug_report
+  optional_variables: []
+  output_parser: null
+  partial_variables: {}
+  metadata:
+    lc_hub_owner: dilean
+    lc_hub_repo: bug_to_user_story_v1
+    lc_hub_commit_hash: 39736c064c119d3d7299ab0fad8d0a5a304f05bb038540faa09c7582c6f9dda1
+  tags: null
+  messages:
+  - {}
+  validate_template: false
