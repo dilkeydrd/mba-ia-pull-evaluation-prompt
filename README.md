@@ -349,6 +349,7 @@ python src/evaluate.py
 
 ## Resultados Finais
 
+```
 from google.generativeai.caching import CachedContent  # type: ignore[import]
    Avaliando exemplos...
       [1/15] F1:0.74 Clarity:0.98 Precision:0.95
@@ -366,6 +367,7 @@ from google.generativeai.caching import CachedContent  # type: ignore[import]
       [13/15] F1:1.00 Clarity:0.98 Precision:1.00
       [14/15] F1:0.96 Clarity:0.98 Precision:0.93
       [15/15] F1:1.00 Clarity:0.97 Precision:0.93
+
 
 ==================================================
 Prompt: dilean/bug_to_user_story_v2
@@ -395,6 +397,7 @@ Aprovados: 1
 Reprovados: 0
 
 ✅ Todos os prompts atingiram todas as métricas >= 0.8!
+```
 
 ## Como executar
 
@@ -405,9 +408,11 @@ cd mba-ia-pull-evaluation-prompt-main
 2. Crie ambiente virtual
 python -m venv venv
 
+```
 Ative o ambiente virtual
 source venv/bin/activate        # Linux/Mac
 venv\Scripts\activate           # Windows
+```
 
 3. Instalar dependencias 
 pip install -r requirements.txt
