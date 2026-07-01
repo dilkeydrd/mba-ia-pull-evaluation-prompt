@@ -412,10 +412,8 @@ venv\Scripts\activate           # Windows
 3. Instalar dependencias 
 pip install -r requirements.txt
 
-4. Configurar credenciais
+4. Configurar credenciais (Edite .env com suas API keys)
 cp .env.example .env
-
-Edite .env com suas API keys
 
 5. Pull do prompt inicial
 python src/pull_prompts.py
